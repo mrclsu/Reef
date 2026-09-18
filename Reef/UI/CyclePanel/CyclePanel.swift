@@ -13,7 +13,7 @@ final class CyclePanel: NSPanel, NSWindowDelegate {
     init(contentRect: NSRect) {
         super.init(
             contentRect: contentRect,
-            styleMask: [.fullSizeContentView, .nonactivatingPanel],
+            styleMask: [.fullSizeContentView, .nonactivatingPanel, .titled],
             backing: .buffered,
             defer: false
         )
@@ -24,6 +24,10 @@ final class CyclePanel: NSPanel, NSWindowDelegate {
         self.collectionBehavior.insert(.canJoinAllSpaces)
         self.titleVisibility = .hidden
         self.titlebarAppearsTransparent = true
+        self.titlebarSeparatorStyle = .none
+        self.standardWindowButton(NSWindow.ButtonType.miniaturizeButton)?.isHidden = true
+        self.standardWindowButton(NSWindow.ButtonType.closeButton)?.isHidden = true
+        self.standardWindowButton(NSWindow.ButtonType.zoomButton)?.isHidden = true
         self.isMovable = false
         self.isMovableByWindowBackground = false
         self.isReleasedWhenClosed = false
@@ -38,11 +42,9 @@ final class CyclePanel: NSPanel, NSWindowDelegate {
         effectView.blendingMode = .behindWindow
         effectView.state = .active
         effectView.appearance = NSAppearance(named: .vibrantDark)
+        
 
         effectView.wantsLayer = true
-        effectView.layer?.cornerRadius = 12
-        effectView.layer?.cornerCurve = .continuous
-        effectView.layer?.masksToBounds = true
 
         // Dark tint layer to keep the panel dark even in Light Mode.
         let tintView = NSView(frame: .zero)

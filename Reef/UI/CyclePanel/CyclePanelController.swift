@@ -43,11 +43,20 @@ final class CyclePanelController: NSObject {
     }
     
     private func createPanel() {
-        let contentRect = NSRect(x: 0, y: 0, width: panelContentWidth, height: 300)
+        let contentRect = NSRect(
+            x: 0,
+            y: 0,
+            width: panelContentWidth,
+            height: minPanelContentHeight
+        )
         panel = CyclePanel(contentRect: contentRect)
         
-        let contentView = CyclePanelView(state: state)
+        let contentView = CyclePanelView(state: state).ignoresSafeArea()
         let hostingView = NSHostingView(rootView: contentView)
+        // The controller sizes this full-content panel explicitly. The default
+        // hosting options otherwise contribute the SwiftUI minimum height to
+        // AppKit's content layout area, adding the title-bar height once more.
+        hostingView.sizingOptions = [.intrinsicContentSize, .preferredContentSize]
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         
         guard let containerView = panel.contentView else { return }
