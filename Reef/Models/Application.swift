@@ -12,6 +12,7 @@ import Cocoa
 class Application {
     var title: String
     var element: AXUIElement?
+    var icon: NSImage?
 
     var runningApplication: NSRunningApplication?
     var pid: pid_t?
@@ -28,6 +29,7 @@ class Application {
         self.title = runningApplication.localizedName ?? "Unknown Application"
         self.bundleIdentifier = runningApplication.bundleIdentifier
         self.bundleUrl = runningApplication.bundleURL
+        self.icon = runningApplication.icon
     }
     
     // Initialize from URL (for loading from persistence)
@@ -48,7 +50,9 @@ class Application {
             self.pid = runningApp.processIdentifier
             self.element = AXUIElementCreateApplication(self.pid!)
             self.title = runningApp.localizedName ?? self.title
+            self.icon = runningApp.icon
         } else {
+            self.icon = NSWorkspace.shared.icon(forFile: url.path())
             self.runningApplication = nil
             self.pid = nil
             self.element = nil
@@ -292,6 +296,7 @@ class Application {
             self.pid = runningApplication.processIdentifier
             self.element = AXUIElementCreateApplication(runningApplication.processIdentifier)
             self.title = runningApplication.localizedName ?? self.title
+            self.icon = runningApplication.icon ?? self.icon
             return
         }
         

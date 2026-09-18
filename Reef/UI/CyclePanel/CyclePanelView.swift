@@ -25,11 +25,20 @@ struct CyclePanelView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            Text(state.applicationTitle)
-                .font(.headline)
-                .foregroundColor(.white)
-                .lineLimit(1)
-                .padding(.vertical, headerPadding)
+            HStack {
+                if let icon = state.applicationIcon {
+                    Image(nsImage: icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .accessibilityHidden(true)
+                }
+                Text(state.applicationTitle)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+            }
+            .padding(.vertical, headerPadding)
 
             
             Divider()
