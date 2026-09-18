@@ -207,8 +207,15 @@ struct ProfileDetailView: View {
                         
                         if let bundleIdentifier = profileManager.bundleIdentifier(for: number, in: profile) {
                             if let app = Application(bundleIdentifier: bundleIdentifier) {
-                                Text(app.title)
-                                    .foregroundStyle(.secondary)
+                                HStack {
+                                    if let icon = app.icon {
+                                        Image(nsImage: icon)
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    Text(app.title)
+                                        .foregroundStyle(.secondary)
+                                }
                             } else {
                                 Text(bundleIdentifier)
                                     .foregroundStyle(.secondary)
